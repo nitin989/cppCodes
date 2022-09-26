@@ -1,7 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
+using lli = long long int;
+using ii = pair<int, int>;
 
-int n;
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int n , k ;
 int height[100010];
 int dp[100010];
 
@@ -9,10 +15,10 @@ int rec(int level)
 {
 
 	// base case 
-	if(level < 0)
+	if(level >= n)
 		return 1e9;
 
-	if(level == 0)
+	if(level == n-1)
 		return 0;
 
 	// caching 
@@ -21,9 +27,13 @@ int rec(int level)
 	
 	// computation 
 
-	int ans = 0;
-	ans = 	min(rec(level - 1) + abs(height[level] - height[level -1])  , 
-		rec(level - 2) + abs(height[level] - height[level -2]));
+	int ans = rec(level + 1) + abs(height[level] - height[level  + 1]);
+	for(int i = 2 ; i <= k ; i++)
+	{
+		ans = 	min(ans  , rec(level + i) + abs(height[level] - height[level + i]));
+
+	}
+	
 
 	return dp[level] = ans;
 
@@ -31,12 +41,12 @@ int rec(int level)
 
 void solve()
 {
-	cin >> n;
+	cin >> n >> k;
 	for(int i = 0 ; i < n ; i++)
 		cin >> height[i];
 
 	memset(dp , -1 , sizeof(dp));
-	cout << rec(n-1) << "\n";
+	cout << rec(0) << "\n";
 }
 
 

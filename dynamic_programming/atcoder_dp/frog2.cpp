@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n;
+int n , k ;
 int height[100010];
 int dp[100010];
 
@@ -21,9 +21,13 @@ int rec(int level)
 	
 	// computation 
 
-	int ans = 0;
-	ans = 	min(rec(level - 1) + abs(height[level] - height[level -1])  , 
-		rec(level - 2) + abs(height[level] - height[level -2]));
+	int ans = rec(level - 1) + abs(height[level] - height[level -1]);
+	for(int i = 2 ; i <= k ; i++)
+	{
+		ans = 	min(ans  , rec(level -  i) + abs(height[level] - height[level -i]));
+
+	}
+	
 
 	return dp[level] = ans;
 
@@ -31,7 +35,7 @@ int rec(int level)
 
 void solve()
 {
-	cin >> n;
+	cin >> n >> k;
 	for(int i = 0 ; i < n ; i++)
 		cin >> height[i];
 
